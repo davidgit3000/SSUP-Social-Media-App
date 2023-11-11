@@ -10,7 +10,7 @@ Run the following commands in order
 # Resources:
 ## Frontend:
 React: https://react.dev/learn \
-Viet: https://vitejs.dev/guide/
+Vite: https://vitejs.dev/guide/
 
 ## Backend
 Django: https://docs.djangoproject.com/en/4.2/
