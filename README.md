@@ -7,7 +7,7 @@ Run the following commands in order
 ### `npm install`
 ### `npm run dev`
 
-# Resource:
+# Resources:
 ## Frontend:
 React: https://react.dev/learn \
 Viet: https://vitejs.dev/guide/
