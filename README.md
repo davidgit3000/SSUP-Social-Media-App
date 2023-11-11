@@ -1,5 +1,5 @@
 # SSUP-Social-Media-App
-A social media app developed by a team in Web Science class. Their goal is to get all college students together and expand their network throughout their academic journey. This social media web application is intended for educational use and offering free student services.
+A social media app developed by a team in Web Science class. Their shared goal is to get all college students together and expand their network throughout their academic journey. This social media web application is intended for educational use and offering free student services.
 
 # How to set up and run the app
 Run the following commands in order
