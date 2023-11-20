@@ -20,8 +20,9 @@ import SearchIcon from "@mui/icons-material/Search";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import logo from "../assets/logo.png";
-import { deepOrange } from "@mui/material/colors";
+import { deepOrange, red } from "@mui/material/colors";
 import { useState } from "react";
+import { Navigate } from "react-router-dom";
 
 const theme = createTheme({
   palette: {
@@ -43,6 +44,10 @@ export default function NavBar() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  // const navigate = () => {
+  //   <Navigate to="/signin" />;
+  // };
 
   return (
     <>
@@ -178,16 +183,25 @@ export default function NavBar() {
         </MenuItem>
         <Divider />
         <MenuItem onClick={handleClose}>
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Settings
+          <Button
+            sx={{ color: "black", textTransform: "none", fontSize: "15px" }}
+          >
+            <ListItemIcon>
+              <Settings fontSize="small" />
+            </ListItemIcon>
+            Settings
+          </Button>
         </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ListItemIcon fontSize="small">
-            <Logout />
-          </ListItemIcon>
-          Log out
+        <MenuItem>
+          <Button
+            sx={{ color: "red", textTransform: "none", fontSize: "15px" }}
+            href="/signin"
+          >
+            <ListItemIcon fontSize="small">
+              <Logout />
+            </ListItemIcon>
+            Log out
+          </Button>
         </MenuItem>
       </Menu>
     </>
