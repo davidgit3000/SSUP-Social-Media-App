@@ -16,8 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from myapp.views import *
 
 urlpatterns = [
-    path('', include("myapp.urls")),
     path('admin/', admin.site.urls),
+    path('api/', ReactView.as_view(), name='api')
 ]

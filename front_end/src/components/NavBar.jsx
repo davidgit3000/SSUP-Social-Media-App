@@ -64,7 +64,7 @@ export default function NavBar() {
               >
                 <Grid item>
                   <div>
-                    <img src={logo} className="w-12 mr-3 rounded-md" />
+                    <img src={logo} className="w-10 md:w-12 mr-3 rounded-md" />
                   </div>
                 </Grid>
                 <Grid>
@@ -104,7 +104,6 @@ export default function NavBar() {
                 <Button
                   variant="text"
                   color="nav_link"
-                  className="hover:bg-black"
                 >
                   Connections
                 </Button>
