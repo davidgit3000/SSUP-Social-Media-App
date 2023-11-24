@@ -1,4 +1,3 @@
-import "./Login.css";
 import { Stack, TextField, Button } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import logo from "../assets/logo.png";
@@ -6,24 +5,30 @@ import logo from "../assets/logo.png";
 function Login() {
   return (
     <>
-      <Stack direction={"row"} spacing={30}>
-        <div className="py-10 w-96 xs:w-80">
+      <Stack
+        direction={"row"}
+        spacing={10}
+        className="justify-center my-20 mx-2"
+      >
+        <div className="py-10 w-1/2 md:w-96">
           <img
             src={logo}
             alt="logo"
-            className="mx-auto mb-2 rounded-lg shadow-2xl w-44"
+            className="mx-auto mb-2 my-10 md:my-2 rounded-lg shadow-2xl w-20 md:w-44"
           />
-          <h1 className="text-5xl text-white font-bold">SSUP</h1>
-          <h2 className="text-sm md:text-2xl italic">
+          <h1 className="text-3xl md:text-5xl text-white text-center font-bold">
+            SSUP
+          </h1>
+          <h2 className="text-md md:text-2xl text-center italic">
             Smart - Strong - Unique - Productive
           </h2>
-          <p className="text-xs md:text-lg">
+          <p className="text-sm text-center md:text-lg md:text-lg">
             Connect with friends and draw your future
           </p>
         </div>
 
-        <div className="bg-[#B3F992] p-3 w-96">
-          <h2 className="text-4xl font-bold">Login</h2>
+        <div className="bg-[#B3F992] p-3 w-1/2 md:w-96">
+          <h2 className="text-4xl font-bold text-center">Login</h2>
           <div className="mt-4">
             <TextField
               id="username"
