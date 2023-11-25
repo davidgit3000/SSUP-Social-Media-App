@@ -4,5 +4,5 @@ from .models import *
 
 class ReactSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Demo
+        model = Name
         fields = ['firstname', 'lastname']

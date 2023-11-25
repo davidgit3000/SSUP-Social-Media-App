@@ -1,7 +1,7 @@
 from django.db import models
 
 # Create your models here.
-class Demo(models.Model):
+class Name(models.Model):
     firstname = models.CharField(max_length=255)
     lastname = models.CharField(max_length=255)
    

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
-from .models import Demo
+from .models import *
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -16,7 +16,7 @@ class ReactView(APIView):
 
     def get(self, request):
         name = [{"firstname": name.firstname, "lastname": name.lastname}
-                for name in Demo.objects.all()]
+                for name in Name.objects.all()]
         return Response(name)
     
     def post(self, request):

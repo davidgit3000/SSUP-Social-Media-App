@@ -7,6 +7,7 @@ import {
   Stack,
   Container,
 } from "@mui/material";
+import "./css/SelectMUI.css";
 
 export default function LeftPanel() {
   return (
