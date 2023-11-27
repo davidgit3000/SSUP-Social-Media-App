@@ -29,7 +29,7 @@ class UserLoginView(APIView):
             token, created = Token.objects.get_or_create(user=user)
             return Response({'token': token.key}, status=status.HTTP_200_OK)
         else:
-            return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({'message': 'Incorrect username or password'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 class UserSignupView(APIView):
@@ -40,3 +40,27 @@ class UserSignupView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserStats(APIView):
+    def get(self, request):
+        name = [{"username": name.username, "firstname": name.first_name, "lastname": name.last_name}
+                for name in UsersInfo.objects.all()]
+        return Response(name)
+
+    def post(self, request):
+        serializer = ReactSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data)
+
+
+class IndividualUser(APIView):
+    def get(self, request, param):
+        for name in UsersInfo.objects.all():
+            if name.username == param:
+                user = [{"username": name.username,
+                         "firstname": name.first_name,
+                         "lastname": name.last_name}]
+                break
+        return Response(user)

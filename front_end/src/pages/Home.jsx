@@ -4,13 +4,15 @@ import LeftPanel from "../components/LeftPanel";
 import StatusPost from "../components/StatusPost";
 import axios from "axios";
 import { Stack } from "@mui/material";
+import { useParams } from "react-router-dom";
 
 export default function Home() {
+  const { param } = useParams();
   return (
     <>
       <Stack spacing={5}>
         <div>
-          <NavBar />
+          <NavBar user={param} />
         </div>
         <Stack
           direction={"row"}

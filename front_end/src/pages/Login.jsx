@@ -5,6 +5,7 @@ import {
   Container,
   Box,
   Divider,
+  colors,
 } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import logo from "../assets/logo.png";
@@ -16,8 +17,30 @@ import { useAuth } from "../components/Authentication/AuthContext";
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
   const { login } = useAuth();
+
+  axios.interceptors.response.use(
+    (response) => {
+      return response;
+    },
+    (error) => {
+      if (error.response) {
+        const { status, data } = error.response;
+
+        if (status === 401) {
+          setError(data.message);
+        } else {
+          setError("An unexpected error occurred");
+        }
+      } else {
+        setError("Network error occurred. Please try again!");
+      }
+
+      return Promise.reject(error);
+    }
+  );
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -37,7 +60,7 @@ function Login() {
 
         console.log("Login successful. Token: ", token);
 
-        navigate("/home");
+        navigate(`/home/${username}`);
       }
     } catch (error) {
       console.error("Login failed: ", error.response.data);
@@ -46,7 +69,11 @@ function Login() {
 
   return (
     <>
-      <Stack direction={"row"} spacing={6} className="justify-center my-24">
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        spacing={6}
+        className="justify-center my-10 sm:my-24"
+      >
         <Container maxWidth="xs" className="py-10">
           <img
             src={logo}
@@ -68,6 +95,10 @@ function Login() {
           <Box bgcolor={"#B3F992"} sx={{ padding: 2 }}>
             <h2 className="mb-4 text-4xl font-bold text-center">Login</h2>
 
+            {/* Display an error message if username or password is invalid */}
+            {error && (
+              <div style={{ color: "red", marginBottom: "10px" }}>{error}</div>
+            )}
             <form
               method="post"
               onSubmit={handleLogin}

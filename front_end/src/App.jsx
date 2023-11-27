@@ -18,12 +18,9 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<ProtectedRoute />}>
-              <Route path="/home" element={<Home />} />
+              <Route path="/home/:param" element={<Home />} />
             </Route>
             <Route path="/login" element={<Login />} />
-            {/* <ProtectedRoute path="/home" element={<Home />} /> */}
-            {/* <Route path="/" element={<Navigate to={"/login"} />} /> */}
-
             <Route path="/signup" element={<Register />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
