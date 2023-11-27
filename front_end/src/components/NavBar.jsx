@@ -196,7 +196,7 @@ export default function NavBar() {
         <MenuItem>
           <Button
             sx={{ color: "red", textTransform: "none", fontSize: "15px" }}
-            href="/signin"
+            href="/login"
           >
             <ListItemIcon fontSize="small">
               <Logout />
