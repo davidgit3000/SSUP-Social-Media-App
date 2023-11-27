@@ -9,6 +9,7 @@ import {
 import logo from "../assets/logo.png";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -18,6 +19,7 @@ export default function Register() {
     username: "",
     password: "",
   });
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -37,6 +39,7 @@ export default function Register() {
 
       if (response.status === 201) {
         console.log("Signup successful");
+        navigate("/login");
       } else {
         console.log("Signup failed");
       }

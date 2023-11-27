@@ -22,7 +22,8 @@ import Logout from "@mui/icons-material/Logout";
 import logo from "../assets/logo.png";
 import { deepOrange, red } from "@mui/material/colors";
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { useAuth } from "./Authentication/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme({
   palette: {
@@ -38,16 +39,21 @@ const theme = createTheme({
 export default function NavBar() {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const navigate = useNavigate();
+  const { logout } = useAuth();
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  // const navigate = () => {
-  //   <Navigate to="/signin" />;
-  // };
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   return (
     <>
@@ -65,10 +71,7 @@ export default function NavBar() {
                 <Grid item>
                   <div>
                     <Button href="/">
-                      <img
-                        src={logo}
-                        className="w-10 md:w-12 rounded-md"  
-                      />
+                      <img src={logo} className="w-10 md:w-12 rounded-md" />
                     </Button>
                   </div>
                 </Grid>
@@ -196,7 +199,7 @@ export default function NavBar() {
         <MenuItem>
           <Button
             sx={{ color: "red", textTransform: "none", fontSize: "15px" }}
-            href="/login"
+            onClick={handleLogout}
           >
             <ListItemIcon fontSize="small">
               <Logout />

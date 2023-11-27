@@ -5,26 +5,19 @@ import {
   Container,
   Box,
   Divider,
-  FormControl,
 } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import logo from "../assets/logo.png";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../components/Authentication/AuthContext";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  let isAuthenticated;
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      console.log(isAuthenticated);
-      navigate("/home");
-    }
-  }, [isAuthenticated, navigate]);
+  const { login } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -39,10 +32,9 @@ function Login() {
       console.log(response.data);
 
       if (response.status === 200) {
-        isAuthenticated = true;
         const { token } = response.data;
-        // Store the token securely in the local storage
-        localStorage.setItem("token", token);
+        login(token);
+
         console.log("Login successful. Token: ", token);
 
         navigate("/home");
