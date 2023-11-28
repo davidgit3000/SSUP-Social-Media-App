@@ -18,6 +18,7 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<ProtectedRoute />}>
+              <Route path="/home" element={<Home />} />
               <Route path="/home/:param" element={<Home />} />
             </Route>
             <Route path="/login" element={<Login />} />

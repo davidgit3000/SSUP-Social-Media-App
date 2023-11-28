@@ -44,7 +44,9 @@ class UserSignupView(APIView):
 
 class UserStats(APIView):
     def get(self, request):
-        name = [{"username": name.username, "firstname": name.first_name, "lastname": name.last_name}
+        name = [{"username": name.username,
+                 "firstname": name.first_name,
+                 "lastname": name.last_name}
                 for name in UsersInfo.objects.all()]
         return Response(name)
 

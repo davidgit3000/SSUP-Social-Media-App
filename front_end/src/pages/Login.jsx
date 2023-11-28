@@ -5,7 +5,9 @@ import {
   Container,
   Box,
   Divider,
-  colors,
+  Alert,
+  CircularProgress,
+  Backdrop,
 } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import logo from "../assets/logo.png";
@@ -18,6 +20,7 @@ function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
 
@@ -30,8 +33,10 @@ function Login() {
         const { status, data } = error.response;
 
         if (status === 401) {
+          setLoading(false);
           setError(data.message);
         } else {
+          setLoading(false);
           setError("An unexpected error occurred");
         }
       } else {
@@ -44,8 +49,10 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
     console.log(username);
     console.log(password);
+    setLoading(true);
     try {
       const response = await axios.post("http://localhost:8000/api/login", {
         username: username,
@@ -60,7 +67,7 @@ function Login() {
 
         console.log("Login successful. Token: ", token);
 
-        navigate(`/home/${username}`);
+        setTimeout(navigate(`/home/${username}`), 8000);
       }
     } catch (error) {
       console.error("Login failed: ", error.response.data);
@@ -97,8 +104,15 @@ function Login() {
 
             {/* Display an error message if username or password is invalid */}
             {error && (
-              <div style={{ color: "red", marginBottom: "10px" }}>{error}</div>
+              <Alert sx={{ mb: 2 }} severity="error">
+                Invalid username or password
+              </Alert>
             )}
+
+            <Backdrop open={loading}>
+              <CircularProgress />
+            </Backdrop>
+
             <form
               method="post"
               onSubmit={handleLogin}
