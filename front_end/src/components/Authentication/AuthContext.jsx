@@ -10,17 +10,21 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   // Handle login
-  const login = (token) => {
-    if (token) {
+  const login = (token, username, exp_time) => {
+    if (token && username && exp_time) {
       // Store the token securely in the local storage
       localStorage.setItem("token", token);
+      localStorage.setItem("username", username);
+      localStorage.setItem("exp_time", exp_time);
       setIsAuthenticated(true);
     }
   };
 
   // Handle logout
   const logout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("token"); // clear the token from the local storage
+    localStorage.removeItem("username");
+    localStorage.removeItem("exp_time");
     setIsAuthenticated(false);
   };
 
@@ -29,9 +33,9 @@ export const AuthProvider = ({ children }) => {
     return accessToken !== null && accessToken !== "";
   };
 
-  useEffect(() => {
-    logout();
-  }, []);
+  // useEffect(() => {
+  //   logout();
+  // }, []);
 
   // check authentication using tokens
   //   const checkAuth = () => {

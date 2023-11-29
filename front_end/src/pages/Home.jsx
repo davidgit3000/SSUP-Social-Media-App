@@ -4,10 +4,46 @@ import LeftPanel from "../components/LeftPanel";
 import StatusPost from "../components/StatusPost";
 import axios from "axios";
 import { Stack } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "../components/Authentication/AuthContext";
+import NotFound from "./NotFound";
 
 export default function Home() {
   const { param } = useParams();
+  const navigate = useNavigate();
+  const { hasAccessToken, logout } = useAuth();
+  const localUsername = localStorage.getItem("username");
+  const currentTime = Date.now() / 1000;
+  const expiration_time = localStorage.getItem("exp_time");
+
+  if (localUsername !== param) {
+    return <NotFound />;
+  }
+
+  if (expiration_time < currentTime) {
+    console.log("Current time: ", currentTime);
+    logout();
+  }
+
+  useEffect(() => {
+    if (hasAccessToken()) {
+      navigate(`/home/${param}`);
+    }
+  }, [hasAccessToken]);
+
+  useEffect(() => {
+    const handleUnauthenticatedAccess = () => {
+      if (hasAccessToken()) {
+        navigate(`/home/${param}`); // Redirect to Home page if already authenticated
+      }
+    };
+
+    window.addEventListener("popstate", handleUnauthenticatedAccess);
+    return () => {
+      window.removeEventListener("popstate", handleUnauthenticatedAccess);
+    };
+  }, [hasAccessToken]);
+
   return (
     <>
       <Stack spacing={5}>

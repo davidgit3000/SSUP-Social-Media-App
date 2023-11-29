@@ -2,7 +2,8 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.authtoken.models import Token
+from rest_framework_simplejwt.tokens import RefreshToken
+from datetime import datetime, timedelta
 from django.contrib.auth import authenticate, login
 from .models import *
 from .serializer import *
@@ -26,8 +27,14 @@ class UserLoginView(APIView):
         print(user, 'testing authenticate()')
         if user is not None:
             login(request, user)
-            token, created = Token.objects.get_or_create(user=user)
-            return Response({'token': token.key}, status=status.HTTP_200_OK)
+            refresh = RefreshToken.for_user(user)
+            access_token = str(refresh.access_token)
+            expiration_time = datetime.now(
+            ) + timedelta(seconds=refresh.access_token.lifetime.total_seconds())
+
+            return Response({'token': access_token,
+                             'expiration_time': expiration_time},
+                            status=status.HTTP_200_OK)
         else:
             return Response({'message': 'Incorrect username or password'}, status=status.HTTP_401_UNAUTHORIZED)
 
@@ -62,7 +69,7 @@ class IndividualUser(APIView):
         for name in UsersInfo.objects.all():
             if name.username == param:
                 user = [{"username": name.username,
-                         "firstname": name.first_name,
+                        "firstname": name.first_name,
                          "lastname": name.last_name}]
                 break
         return Response(user)

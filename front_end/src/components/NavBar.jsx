@@ -21,7 +21,7 @@ import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import logo from "../assets/logo.png";
 import { deepOrange, red } from "@mui/material/colors";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "./Authentication/AuthContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -44,16 +44,30 @@ export default function NavBar({ user }) {
   const { logout } = useAuth();
   const [fname, setFName] = useState("");
   const [lnam, setLName] = useState("");
+  const { hasAccessToken } = useAuth();
+  const localToken = localStorage.getItem("token");
+  // useEffect(() => {
+  //   if (hasAccessToken()) {
+  //     const token = localStorage.getItem("token");
+  //     axios.defaults.headers.common["Authorization"] = `Token ${token}`;
+  //   }
+  // }, [hasAccessToken]);
 
-  axios
-    .get(`http://localhost:8000/api/users/username=${user}`)
-    .then((res) => {
-      setFName(res.data[0].firstname);
-      setLName(res.data[0].lastname);
-    })
-    .catch((err) => {
-      console.error("Error: ", err);
-    });
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8000/api/users/username=${user}`, {
+        headers: {
+          Authorization: `Bearer ${localToken}`,
+        },
+      })
+      .then((res) => {
+        setFName(res.data[0].firstname);
+        setLName(res.data[0].lastname);
+      })
+      .catch((err) => {
+        console.error("Error: ", err);
+      });
+  }, [hasAccessToken]);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);

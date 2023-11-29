@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import logo from "../assets/logo.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../components/Authentication/AuthContext";
@@ -22,7 +22,14 @@ function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, hasAccessToken } = useAuth();
+
+  useEffect(() => {
+    if (hasAccessToken()) {
+      const token = localStorage.getItem("token");
+      axios.defaults.headers.common["Authorization"] = `Token ${token}`;
+    }
+  }, [hasAccessToken]);
 
   axios.interceptors.response.use(
     (response) => {
@@ -62,12 +69,11 @@ function Login() {
       console.log(response.data);
 
       if (response.status === 200) {
-        const { token } = response.data;
-        login(token);
+        const { token, expiration_time } = response.data; // get token from Django server
+        login(token, username, expiration_time);
 
-        console.log("Login successful. Token: ", token);
-
-        setTimeout(navigate(`/home/${username}`), 8000);
+        // console.log("Login successful. Token: ", token);
+        navigate(`/home/${username}`);
       }
     } catch (error) {
       console.error("Login failed: ", error.response.data);

@@ -17,8 +17,8 @@ function App() {
       <AuthProvider>
         <Router>
           <Routes>
-            <Route path="/" element={<ProtectedRoute />}>
-              <Route path="/home" element={<Home />} />
+            <Route exact path="/" element={<ProtectedRoute />}>
+              <Route index path="/home" element={<Home />} />
               <Route path="/home/:param" element={<Home />} />
             </Route>
             <Route path="/login" element={<Login />} />

@@ -5,6 +5,8 @@ import {
   Container,
   Box,
   FormControl,
+  Backdrop,
+  CircularProgress,
 } from "@mui/material";
 import logo from "../assets/logo.png";
 import { useState } from "react";
@@ -19,6 +21,7 @@ export default function Register() {
     username: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
@@ -29,6 +32,7 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setLoading(true);
     // Perform validation
     // (check if input password and its confirmation match each other)
     try {
@@ -50,6 +54,10 @@ export default function Register() {
 
   return (
     <>
+      <Backdrop open={loading}>
+        <CircularProgress color="inherit"/>
+      </Backdrop>
+
       <Stack direction={"row"} spacing={6} className="justify-center my-16">
         <Container maxWidth="xs" className="py-10">
           <img
