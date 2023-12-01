@@ -10,6 +10,7 @@ import Home from "./pages/Home";
 import ProtectedRoute from "./components/Authentication/ProtectedRoute";
 import { AuthProvider } from "./components/Authentication/AuthContext";
 import NotFound from "./pages/NotFound";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -17,9 +18,9 @@ function App() {
       <AuthProvider>
         <Router>
           <Routes>
-            <Route exact path="/" element={<ProtectedRoute />}>
-              <Route index path="/home" element={<Home />} />
+            <Route path="/" element={<ProtectedRoute />}>
               <Route path="/home/:param" element={<Home />} />
+              <Route path="/profile/:param" element={<Profile />} />
             </Route>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Register />} />

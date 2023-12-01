@@ -40,18 +40,13 @@ const theme = createTheme({
 export default function NavBar({ user }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
   const navigate = useNavigate();
   const { logout } = useAuth();
   const [fname, setFName] = useState("");
   const [lnam, setLName] = useState("");
   const { hasAccessToken } = useAuth();
   const localToken = localStorage.getItem("token");
-  // useEffect(() => {
-  //   if (hasAccessToken()) {
-  //     const token = localStorage.getItem("token");
-  //     axios.defaults.headers.common["Authorization"] = `Token ${token}`;
-  //   }
-  // }, [hasAccessToken]);
 
   useEffect(() => {
     axios
@@ -97,7 +92,7 @@ export default function NavBar({ user }) {
               >
                 <Grid item>
                   <div>
-                    <Button href="/">
+                    <Button href={`/home/${user}`}>
                       <img src={logo} className="w-10 md:w-12 rounded-md" />
                     </Button>
                   </div>
@@ -109,7 +104,7 @@ export default function NavBar({ user }) {
                       className="font-extrabold"
                       noWrap
                       component="a"
-                      href="/"
+                      href={`/home/${user}`}
                     >
                       SSUP
                     </Typography>
@@ -213,7 +208,11 @@ export default function NavBar({ user }) {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={handleClose}>
+        <MenuItem
+          onClick={() => {
+            navigate(`/profile/${user}`);
+          }}
+        >
           <Avatar sx={{ width: 32, height: 32, bgcolor: deepOrange[500] }} />
           {fname} {lnam}
         </MenuItem>

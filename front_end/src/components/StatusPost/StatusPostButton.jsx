@@ -16,9 +16,9 @@ import {
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import TipsAndUpdatesRoundedIcon from "@mui/icons-material/TipsAndUpdatesRounded";
 import { useState } from "react";
-import "./css/SelectMUI.css";
+import "../css/SelectMUI.css";
 
-export default function StatusPost() {
+export default function StatusPostButton() {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {

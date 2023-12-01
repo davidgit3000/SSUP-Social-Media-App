@@ -10,7 +10,7 @@ class ReactSerializer(serializers.ModelSerializer):
         fields = ['id', 'last_login', 'is_superuser',
                   'username', 'password',
                   'first_name', 'last_name', 'email', 'is_staff',
-                  'is_active', 'date_joined', 'date_of_birth']
+                  'is_active', 'date_joined', 'date_of_birth', 'role', 'is_online']
 
     def create(self, validated_data):
         password = validated_data.pop("password")

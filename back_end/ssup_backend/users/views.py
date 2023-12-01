@@ -22,16 +22,16 @@ class UserLoginView(APIView):
     def post(self, request):
         username = request.data.get("username")
         password = request.data.get("password")
-        print(username, ' ', password, ' --- testing post()')
+        # print(username, ' ', password, ' --- testing post()')
         user = authenticate(username=username, password=password)
-        print(user, 'testing authenticate()')
+        # print(user, 'testing authenticate()')
         if user is not None:
             login(request, user)
             refresh = RefreshToken.for_user(user)
             access_token = str(refresh.access_token)
             expiration_time = datetime.now(
             ) + timedelta(seconds=refresh.access_token.lifetime.total_seconds())
-
+            print(expiration_time)
             return Response({'token': access_token,
                              'expiration_time': expiration_time},
                             status=status.HTTP_200_OK)
@@ -53,7 +53,8 @@ class UserStats(APIView):
     def get(self, request):
         name = [{"username": name.username,
                  "firstname": name.first_name,
-                 "lastname": name.last_name}
+                 "lastname": name.last_name,
+                 "is_online": name.is_online}
                 for name in UsersInfo.objects.all()]
         return Response(name)
 

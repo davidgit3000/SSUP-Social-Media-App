@@ -66,7 +66,7 @@ function Login() {
         password: password,
       });
 
-      console.log(response.data);
+      // console.log(response.data);
 
       if (response.status === 200) {
         const { token, expiration_time } = response.data; // get token from Django server
