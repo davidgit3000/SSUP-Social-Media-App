@@ -1,15 +1,65 @@
-import { Stack, TextField, Button } from "@mui/material";
+import {
+  Stack,
+  TextField,
+  Button,
+  Container,
+  Box,
+  FormControl,
+  Backdrop,
+  CircularProgress,
+} from "@mui/material";
 import logo from "../assets/logo.png";
+import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
+  const [formData, setFormData] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    username: "",
+    password: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    setLoading(true);
+    // Perform validation
+    // (check if input password and its confirmation match each other)
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/signup",
+        formData
+      );
+
+      if (response.status === 201) {
+        console.log("Signup successful");
+        navigate("/login");
+      } else {
+        console.log("Signup failed");
+      }
+    } catch (error) {
+      console.error("Error during signup: ", error);
+    }
+  };
+
   return (
     <>
-      <Stack
-        direction={"row"}
-        spacing={10}
-        className="justify-center my-10 mx-2"
-      >
-        <div className="py-10 w-1/2 md:w-96">
+      <Backdrop open={loading}>
+        <CircularProgress color="inherit"/>
+      </Backdrop>
+
+      <Stack direction={"row"} spacing={6} className="justify-center my-16">
+        <Container maxWidth="xs" className="py-10">
           <img
             src={logo}
             alt="logo"
@@ -24,76 +74,97 @@ export default function Register() {
           <p className="text-sm text-center md:text-lg md:text-lg">
             Connect with friends and draw your future
           </p>
-        </div>
+        </Container>
 
-        <div className="bg-[#B3F992] p-3 w-2/3 md:w-96">
-          <h2 className="text-4xl font-bold text-center">Create new account</h2>
+        <Container maxWidth="sm">
+          <Box bgcolor={"#B3F992"} sx={{ padding: 2 }}>
+            <h2 className="mb-4 text-2xl md:text-4xl font-bold text-center">
+              Create new account
+            </h2>
 
-          <div className="mt-3">
-            <Stack direction={"row"} spacing={5}>
-              <TextField
-                id="first_name"
-                label="First Name"
-                variant="filled"
-                className="bg-slate-100 rounded-md"
-              />
-
-              <TextField
-                id="last_name"
-                label="Last Name"
-                variant="filled"
-                className="bg-slate-100 rounded-md"
-              />
-            </Stack>
-          </div>
-          <div className="mt-4">
-            <TextField
-              id="email"
-              label="Email"
-              variant="filled"
-              fullWidth
-              className="bg-slate-100 rounded-md"
-            />
-          </div>
-          <div className="mt-4">
-            <TextField
-              id="username"
-              label="Username"
-              variant="filled"
-              fullWidth
-              className="bg-slate-100 rounded-md"
-            />
-          </div>
-          <div className="mt-4">
-            <TextField
-              type="password"
-              id="pwd"
-              label="Password"
-              variant="filled"
-              fullWidth
-              className="bg-slate-100 rounded-md"
-            />
-          </div>
-          <div className="mt-4">
-            <TextField
-              type="password"
-              id="c_pwd"
-              label="Confirm your password"
-              variant="filled"
-              fullWidth
-              className="bg-slate-100 rounded-md"
-            />
-          </div>
-          <div className="mt-4">
-            <Button
-              variant="contained"
-              style={{ background: "#4CCC51" }}
-              fullWidth
+            <form
+              method="post"
+              onSubmit={handleSubmit}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                rowGap: "1em",
+              }}
             >
-              Sign up
-            </Button>
-          </div>
-        </div>
+              <Stack direction={"row"} spacing={2}>
+                <TextField
+                  type="text"
+                  name="first_name"
+                  value={formData.first_name}
+                  label="First Name"
+                  variant="filled"
+                  className="bg-slate-100 rounded-md"
+                  fullWidth
+                  onChange={handleInputChange}
+                />
+                <TextField
+                  type="text"
+                  name="last_name"
+                  value={formData.last_name}
+                  label="Last Name"
+                  variant="filled"
+                  className="bg-slate-100 rounded-md"
+                  fullWidth
+                  onChange={handleInputChange}
+                />
+              </Stack>
+              <TextField
+                type="email"
+                name="email"
+                value={formData.email}
+                label="Email"
+                variant="filled"
+                fullWidth
+                className="bg-slate-100 rounded-md"
+                onChange={handleInputChange}
+              />
+              <TextField
+                type="text"
+                name="username"
+                value={formData.username}
+                label="Username"
+                variant="filled"
+                fullWidth
+                className="bg-slate-100 rounded-md"
+                onChange={handleInputChange}
+              />
+              <TextField
+                type="password"
+                name="password"
+                value={formData.password}
+                label="Password"
+                variant="filled"
+                fullWidth
+                className="bg-slate-100 rounded-md"
+                onChange={handleInputChange}
+              />
+
+              <TextField
+                type="password"
+                name="confirm_password"
+                id="conf_pwd"
+                label="Confirm your password"
+                variant="filled"
+                fullWidth
+                className="bg-slate-100 rounded-md"
+              />
+
+              <Button
+                type="submit"
+                variant="contained"
+                style={{ background: "#4CCC51" }}
+                fullWidth
+              >
+                Sign up
+              </Button>
+            </form>
+          </Box>
+        </Container>
       </Stack>
     </>
   );

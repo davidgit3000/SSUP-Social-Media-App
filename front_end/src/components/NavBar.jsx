@@ -21,8 +21,10 @@ import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
 import logo from "../assets/logo.png";
 import { deepOrange, red } from "@mui/material/colors";
-import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useAuth } from "./Authentication/AuthContext";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const theme = createTheme({
   palette: {
@@ -35,19 +37,45 @@ const theme = createTheme({
   },
 });
 
-export default function NavBar() {
+export default function NavBar({ user }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
+  const navigate = useNavigate();
+  const { logout } = useAuth();
+  const [fname, setFName] = useState("");
+  const [lnam, setLName] = useState("");
+  const { hasAccessToken } = useAuth();
+  const localToken = localStorage.getItem("token");
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8000/api/users/username=${user}`, {
+        headers: {
+          Authorization: `Bearer ${localToken}`,
+        },
+      })
+      .then((res) => {
+        setFName(res.data[0].firstname);
+        setLName(res.data[0].lastname);
+      })
+      .catch((err) => {
+        console.error("Error: ", err);
+      });
+  }, [hasAccessToken]);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  // const navigate = () => {
-  //   <Navigate to="/signin" />;
-  // };
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   return (
     <>
@@ -64,11 +92,8 @@ export default function NavBar() {
               >
                 <Grid item>
                   <div>
-                    <Button href="/">
-                      <img
-                        src={logo}
-                        className="w-10 md:w-12 rounded-md"  
-                      />
+                    <Button href={`/home/${user}`}>
+                      <img src={logo} className="w-10 md:w-12 rounded-md" />
                     </Button>
                   </div>
                 </Grid>
@@ -79,7 +104,7 @@ export default function NavBar() {
                       className="font-extrabold"
                       noWrap
                       component="a"
-                      href="/"
+                      href={`/home/${user}`}
                     >
                       SSUP
                     </Typography>
@@ -124,17 +149,22 @@ export default function NavBar() {
                 <IconButton
                   onClick={handleClick}
                   size="small"
-                  sx={{ ml: 2 }}
+                  sx={{
+                    ml: 2,
+                    color: "white",
+                    fontWeight: "700",
+                    ":hover": { background: "lightgreen", color: "black" },
+                  }}
                   aria-controls={open ? "account-menu" : undefined}
                   aria-haspopup="true"
                   aria-expanded={open ? "true" : undefined}
                 >
-                  {" "}
-                  <Avatar
+                  {user}
+                  {/* <Avatar
                     sx={{ width: 32, height: 32, bgcolor: deepOrange[500] }}
                   >
-                    DL
-                  </Avatar>
+                    {user}
+                  </Avatar> */}
                 </IconButton>
               </div>
             </Toolbar>
@@ -178,9 +208,13 @@ export default function NavBar() {
         transformOrigin={{ horizontal: "right", vertical: "top" }}
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem onClick={handleClose}>
+        <MenuItem
+          onClick={() => {
+            navigate(`/profile/${user}`);
+          }}
+        >
           <Avatar sx={{ width: 32, height: 32, bgcolor: deepOrange[500] }} />
-          My Profile
+          {fname} {lnam}
         </MenuItem>
         <Divider />
         <MenuItem onClick={handleClose}>
@@ -196,7 +230,7 @@ export default function NavBar() {
         <MenuItem>
           <Button
             sx={{ color: "red", textTransform: "none", fontSize: "15px" }}
-            href="/signin"
+            onClick={handleLogout}
           >
             <ListItemIcon fontSize="small">
               <Logout />
