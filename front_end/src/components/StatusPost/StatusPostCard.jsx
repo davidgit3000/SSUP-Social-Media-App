@@ -81,7 +81,7 @@ export default function StatusPostCard({
     }
   };
 
-  // Split the user name (first name and last name)
+  // Split the user name (first name and last name) -
   const userSplit = user.split(" ");
 
   // Handler for toggling the like state and updating the like count
