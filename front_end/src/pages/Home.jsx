@@ -8,6 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../components/Authentication/AuthContext";
 import NotFound from "./NotFound";
 import OnlineUsersView from "../components/WebSocket/OnlineUsersView";
+import axios from "axios";
 
 export default function Home() {
   const { param } = useParams();
@@ -16,26 +17,34 @@ export default function Home() {
   const localUsername = localStorage.getItem("username");
   const tokenExpiration = localStorage.getItem("exp_time");
   const expirationTime = new Date(tokenExpiration).getTime();
+  const [posts, setPosts] = useState([]);
 
-  const sampleUser = {
-    username: "John Doe",
-    profilePicture: "https://example.com/profile.jpg",
-  };
+  // const sampleUser = {
+  //   username: "John Doe",
+  //   profilePicture: "https://example.com/profile.jpg",
+  // };
 
   if (localUsername !== param) {
     return <NotFound />;
   }
 
   useEffect(() => {
-    if (tokenExpiration) {
-      const currentTime = new Date().getTime();
-      // console.log("Exp time: ", expirationTime);
-      // console.log("Current time: ", currentTime);
-      if (expirationTime < currentTime) {
-        logout();
-        navigate("/login");
+    async function handleLogout() {
+      if (tokenExpiration) {
+        const currentTime = new Date().getTime();
+        // console.log("Exp time: ", expirationTime);
+        // console.log("Current time: ", currentTime);
+        if (expirationTime < currentTime) {
+          await axios.post("http://localhost:8000/api/logout", {
+            username: param,
+          });
+          logout();
+          navigate("/login");
+        }
       }
     }
+
+    handleLogout();
   }, [expirationTime]);
 
   useEffect(() => {
@@ -57,9 +66,23 @@ export default function Home() {
     };
   }, [hasAccessToken]);
 
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/api/posts/`);
+        setPosts(response.data);
+        // console.log(response.data[0]);
+      } catch (error) {
+        console.error("Error fetching posts: ", error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
   return (
     <>
-      <Stack spacing={{xs: 9, sm: 10, md: 5}}>
+      <Stack spacing={{ xs: 9, sm: 10, md: 5 }}>
         <div className="bg-black w-1/2 xs:w-1/3">
           <NavBar user={param} />
         </div>
@@ -67,62 +90,46 @@ export default function Home() {
         <Stack
           direction={"row"}
           className="relative top-14 md:top-5"
-          spacing={1} 
+          spacing={1}
         >
           <LeftPanel />
 
           <div className="w-1/2 sm:w-3/4 p-3 bg-[#E8F7BC]">
             <Stack spacing={2} className="relative top-3">
               <div>
-                <StatusPostButton />
+                <StatusPostButton username={param} />
               </div>
               <div className="px-2 text-lg md:text-2xl font-bold">
                 Your feeds
               </div>
-              <div>
+              {/* <div>
                 <StatusPostCard
                   content="Hello World!"
-                  user={sampleUser}
+                  user={"David Lam"}
                   date="November 27, 2023"
                   likes={10}
                   comments={2}
                   shares={3}
                   bookmarks={10}
                 />
-              </div>
-              <div>
-                <StatusPostCard
-                  content="Hello World"
-                  user={sampleUser}
-                  date="November 27, 2023"
-                  likes={10}
-                  comments={2}
-                  shares={3}
-                  bookmarks={10}
-                />
-              </div>
-              <div>
-                <StatusPostCard
-                  content="Hello World!"
-                  user={sampleUser}
-                  date="November 27, 2023"
-                  likes={10}
-                  comments={2}
-                  shares={3}
-                  bookmarks={10}
-                />
-              </div>
-              <div>
-                <StatusPostCard
-                  content="Hello World!"
-                  user={sampleUser}
-                  date="November 27, 2023"
-                  likes={10}
-                  comments={2}
-                  shares={3}
-                  bookmarks={10}
-                />
-              </div>
+              </div> */}
+
+              {posts.map((post) => (
+                <div key={post.id}>
+                  <StatusPostCard
+                    owner={post.username == param}
+                    id={post.id}
+                    user={post.firstname + " " + post.lastname}
+                    date={post.datePosted}
+                    content={post.content}
+                    likes={post.numLikes}
+                    liked={post.isLiked}
+                    isFollowing={post.isFollowing}
+                    comments={post.numComments}
+                    shares={post.numShares}
+                  />
+                </div>
+              ))}
             </Stack>
           </div>
           <div className="w-1/2 md:w-1/4 p-3 bg-[#D5E6E7]">
@@ -130,10 +137,6 @@ export default function Home() {
           </div>
         </Stack>
       </Stack>
-
-      {/* SnackBar (short notifications), Badge, Tooltip, Floating Action Button, Dialog, Card,
-      Drawer(for Notifications Tab) */}
-      {/* http://localhost:8000/res/ */}
     </>
   );
 }

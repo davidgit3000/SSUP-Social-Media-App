@@ -9,8 +9,34 @@ import {
   Avatar,
 } from "@mui/material";
 import { Circle } from "@mui/icons-material";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function OnlineUsersView() {
+  const [onlineUsers, setOnlineUsers] = useState([]);
+  const [offlineUsers, setOfflineUsers] = useState([]);
+
+  useEffect(() => {
+    // Fetch users' online status from API
+    async function fetOnlineUsers() {
+      try {
+        const response = await axios.get("http://localhost:8000/api/users/");
+        const users = response.data;
+
+        // FIlter users based on online status
+        const online = users.filter((user) => user.is_online);
+        const offline = users.filter((user) => !user.is_online);
+
+        setOnlineUsers(online);
+        setOfflineUsers(offline);
+      } catch (error) {
+        console.error("Error fetching users: ", error.response.data);
+      }
+    }
+
+    fetOnlineUsers();
+  }, []);
+
   return (
     <>
       <Stack spacing={0.5}>
@@ -20,18 +46,17 @@ export default function OnlineUsersView() {
         </Stack>
         <Stack>
           <List>
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar>DL</Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={"dlam1"} />
-            </ListItem>
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar>EM</Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={"emusk"} />
-            </ListItem>
+            {onlineUsers.map((user) => (
+              <ListItem key={user.id}>
+                <ListItemAvatar>
+                  <Avatar>
+                    {user.firstname.charAt(0)}
+                    {user.lastname.charAt(0)}
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={user.username} />
+              </ListItem>
+            ))}
           </List>
         </Stack>
         <Stack direction={"row"} spacing={1}>
@@ -40,18 +65,17 @@ export default function OnlineUsersView() {
         </Stack>
         <Stack>
           <List>
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar>JB</Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={"jbezosaz"} />
-            </ListItem>
-            <ListItem>
-              <ListItemAvatar>
-                <Avatar>MZ</Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={"markfb"} />
-            </ListItem>
+            {offlineUsers.map((user) => (
+              <ListItem key={user.id}>
+                <ListItemAvatar>
+                  <Avatar>
+                    {user.firstname.charAt(0)}
+                    {user.lastname.charAt(0)}
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={user.username} />
+              </ListItem>
+            ))}
           </List>
         </Stack>
       </Stack>

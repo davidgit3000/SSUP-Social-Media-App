@@ -72,9 +72,14 @@ export default function NavBar({ user }) {
     setAnchorEl(null);
   };
 
-  const handleLogout = () => {
-    logout();
-    navigate("/login");
+  const handleLogout = async () => {
+    try {
+      await axios.post("http://localhost:8000/api/logout", { username: user });
+      logout();
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout failed", error.response.data);
+    }
   };
 
   return (

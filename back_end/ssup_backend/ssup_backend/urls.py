@@ -24,5 +24,10 @@ urlpatterns = [
     path('api/users/username=<str:param>',
          IndividualUser.as_view(), name="individual_user"),
     path('api/login', UserLoginView.as_view(), name='user_login'),
-    path('api/signup', UserSignupView.as_view(), name='user_signup')
+    path('api/signup', UserSignupView.as_view(), name='user_signup'),
+    path('api/online_status', OnlineStatusView.as_view(), name='online_status'),
+    path('api/logout', LogoutView.as_view(), name='logout'),
+    path('api/posts/', PostsListView.as_view(), name='posts'),
+    path('api/posts/<str:name>', IndividualPost.as_view(), name='post_removal'),
+    path('api/post_status/id=<int:post_id>', UpdateIndividualPost.as_view(), name='update_post_status'),
 ]

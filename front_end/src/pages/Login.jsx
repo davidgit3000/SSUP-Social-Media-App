@@ -57,8 +57,8 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    console.log(username);
-    console.log(password);
+    // console.log(username);
+    // console.log(password);
     setLoading(true);
     try {
       const response = await axios.post("http://localhost:8000/api/login", {
@@ -74,6 +74,11 @@ function Login() {
 
         // console.log("Login successful. Token: ", token);
         navigate(`/home/${username}`);
+
+        await axios.post("http://localhost:8000/api/online_status", {
+          username: username,
+          is_online: true,
+        });
       }
     } catch (error) {
       console.error("Login failed: ", error.response.data);
