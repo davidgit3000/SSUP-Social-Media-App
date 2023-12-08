@@ -15,7 +15,7 @@ A social media app developed by a team in Web Science class. Their shared goal i
 - [x] Can see past posts    
 ## GIF
 ![](http://g.recordit.co/iL1YGW24yN.gif)
-![](https://recordit.co/KLqQ4BYLwi)
+![](http://g.recordit.co/KLqQ4BYLwi.gif)
 
 # How to set up and run the app
 Run the following commands in order
