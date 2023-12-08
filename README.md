@@ -2,7 +2,7 @@
 A social media app developed by a team in Web Science class. Their shared goal is to get all college students together and expand their network throughout their academic journey. This social media web application is intended for educational use and offering free student services.
 
 ## Unique features
-- [x] Security: Will not allow users to access anyones account without loging in first
+- [x] Security: Will not allow users to access anyones account without logging in first
 - [x] Users can create an account
 - [x] Can post
 - [x] Can delete only their posts
