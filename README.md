@@ -16,8 +16,6 @@ A social media app developed by a team in Web Science class. Their shared goal i
 ## GIF
 ### Security of Website
 ![](http://g.recordit.co/iL1YGW24yN.gif)
-### Can follow, upload pictures, videos, other posts, see who is online/offline, see past posts
-![](http://g.recordit.co/KQA2NTzOIo.gif)
 # How to set up and run the app
 Run the following commands in order
 ### `cd ssup-social-media-app`
