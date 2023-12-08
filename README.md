@@ -1,6 +1,12 @@
 # SSUP-Social-Media-App
 A social media app developed by a team in Web Science class. Their shared goal is to get all college students together and expand their network throughout their academic journey. This social media web application is intended for educational use and offering free student services.
 
+## Unique features
+-[x](Security: it will not allow any users to reach anyone's login without authentication first)
+
+## GIF
+![](http://g.recordit.co/iL1YGW24yN.gif)
+
 # How to set up and run the app
 Run the following commands in order
 ### `cd ssup-social-media-app`
