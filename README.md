@@ -18,20 +18,16 @@ A social media app developed by a team in Web Science class. Their shared goal i
 ![](http://g.recordit.co/iL1YGW24yN.gif)
 ### Can follow, upload pictures, videos, other posts, see who is online/offline, see past posts
 ![](http://g.recordit.co/KQA2NTzOIo.gif)
-
 # How to set up and run the app
 Run the following commands in order
 ### `cd ssup-social-media-app`
 ### `npm install`
 ### `npm run dev`
-
 # Resources:
 ## Frontend:
 React: https://react.dev/learn \
 Vite: https://vitejs.dev/guide/
-
 ## Backend
 Django: https://docs.djangoproject.com/en/4.2/
-
 ## Database:
 MySQL: https://www.w3schools.com/MySQL/default.asp
