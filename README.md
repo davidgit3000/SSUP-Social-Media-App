@@ -2,7 +2,7 @@
 A social media app developed by a team in Web Science class. Their shared goal is to get all college students together and expand their network throughout their academic journey. This social media web application is intended for educational use and offering free student services.
 
 ## Unique features
-- [x] Game interface has a heading (h1 tag), a line of body text (p tag), and four buttons that match the demo app
+- [x] Security: Will not allow users to access anyones account without loging in first
 ## GIF
 ![](http://g.recordit.co/iL1YGW24yN.gif)
 
