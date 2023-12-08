@@ -3,8 +3,9 @@ A social media app developed by a team in Web Science class. Their shared goal i
 
 ## Unique features
 - [x] Security: Will not allow users to access anyones account without loging in first
-- [x] Users can post
-- [x] Users can delete only their posts
+- [x] Users can create an account
+- [x] Can post
+- [x] Can delete only their posts
 - [x] Can upload pictures
 - [x] Can upload videos
 - [x] Can React to posts
