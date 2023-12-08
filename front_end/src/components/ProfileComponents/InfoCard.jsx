@@ -67,11 +67,13 @@ export default function InfoCard({ title, content }) {
     console.log(`Save: Title - ${title}, Content - ${content}`);
   };
 
+  const textField = new Quill("#textfield");
+
   return (
     <>
       <Stack sx={{ background: "lightgreen", padding: "10px" }}>
         <Card>
-          <CardHeader sx={{color: "darkgreen"}} title={title} />
+          <CardHeader sx={{ color: "darkgreen" }} title={title} />
 
           <div className="ml-2">{editContent}</div>
 
@@ -104,11 +106,13 @@ export default function InfoCard({ title, content }) {
             <DialogTitle>Edit InfoCard</DialogTitle>
             <DialogContent>
               <TextField
-                label="Content"
-                variant="outlined"
-                fullWidth
+                autoFocus
+                margin="dense"
+                label="About"
+                placeholder="Write your bio here"
                 multiline
                 rows={10}
+                fullWidth
                 value={editContent}
                 onChange={(e) => setEditContent(e.target.value)}
               />
@@ -127,6 +131,7 @@ export default function InfoCard({ title, content }) {
             <DialogTitle>Add New InfoCard</DialogTitle>
             <DialogContent>
               <TextField
+                id="textfield"
                 label="Title"
                 variant="outlined"
                 fullWidth

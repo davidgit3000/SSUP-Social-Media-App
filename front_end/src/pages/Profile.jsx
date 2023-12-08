@@ -34,7 +34,7 @@ export default function Profile() {
           </ImageBanner>
         </Stack>
         {/* Add spacing between the username and the first InfoCard */}
-        <Stack spacing={2}>
+        <Stack spacing={2} sx={{padding: "10px"}}>
           {/* Hardcoded InfoCards */}
           <InfoCard
             title="About me"

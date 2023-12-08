@@ -12,9 +12,9 @@ import "./css/SelectMUI.css";
 export default function LeftPanel() {
   return (
     <>
-      <Stack className="p-3 w-1/3 md:w-1/4 bg-[#B3F992]">
+      <Stack className="p-2 w-1/3 md:w-1/4 bg-[#B3F992]">
         <Stack spacing={2}>
-          <div className="font-bold text-3xl xs:text-lg text-center">Free Services</div>
+          <div className="pt-3 font-bold text-xl md:text-3xl text-center">Free Services</div>
           <div>
             <FormControl fullWidth>
               <InputLabel id="tutoring">Tutoring</InputLabel>

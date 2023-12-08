@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
-    'channels',
 ]
 
 ASGI_APPLICATION = 'ssup_backend.asgi.application'
@@ -110,13 +109,22 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'mydb',
-        'USER': 'root',
+        'USER': 'dlam_db',
         'PASSWORD': 'mypassword10!',
-        'HOST': 'localhost',
+        'HOST': 'ssup-db.cu6v8i9vnnyf.us-east-2.rds.amazonaws.com',
         'PORT': '3306',
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+        },
     }
 }
 
+# 'ENGINE': 'django.db.backends.mysql',
+# 'NAME': 'mydb',
+# 'USER': 'dlam_db',
+# 'PASSWORD': 'mypassword10!',
+# 'HOST': 'ssup-db.cu6v8i9vnnyf.us-east-2.rds.amazonaws.com',
+# 'PORT': '3306',
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -164,3 +172,5 @@ AUTH_USER_MODEL = 'users.UsersInfo'
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
+
+DEFAULT_CHARSET = 'utf-8'

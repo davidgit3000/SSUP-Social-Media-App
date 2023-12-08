@@ -14,6 +14,8 @@ import {
   MenuItem,
   Divider,
   ListItemIcon,
+  Drawer,
+  Box,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
@@ -39,6 +41,7 @@ const theme = createTheme({
 
 export default function NavBar({ user }) {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
   const open = Boolean(anchorEl);
 
   const navigate = useNavigate();
@@ -66,6 +69,10 @@ export default function NavBar({ user }) {
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const handleOpen = () => {
+    setIsOpen(true);
   };
 
   const handleClose = () => {
@@ -146,7 +153,7 @@ export default function NavBar({ user }) {
                 </Button>
               </div>
               <div className="mx-1">
-                <Button variant="text" color="nav_link">
+                <Button variant="text" color="nav_link" onClick={handleOpen}>
                   Notifications
                 </Button>
               </div>
@@ -165,11 +172,6 @@ export default function NavBar({ user }) {
                   aria-expanded={open ? "true" : undefined}
                 >
                   {user}
-                  {/* <Avatar
-                    sx={{ width: 32, height: 32, bgcolor: deepOrange[500] }}
-                  >
-                    {user}
-                  </Avatar> */}
                 </IconButton>
               </div>
             </Toolbar>
@@ -244,6 +246,20 @@ export default function NavBar({ user }) {
           </Button>
         </MenuItem>
       </Menu>
+
+      <Drawer
+        anchor="right"
+        open={isOpen}
+        onClose={() => {
+          setIsOpen(false);
+        }}
+      >
+        <Container sx={{backgroundColor: "lightgreen", minHeight: "100vh"}}>
+          <Box sx={{ padding: "10px"}}>
+            Your notifications are here.
+          </Box>
+        </Container>
+      </Drawer>
     </>
   );
 }

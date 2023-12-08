@@ -31,6 +31,7 @@ import {
   Delete,
 } from "@mui/icons-material";
 import axios from "axios";
+import HTMLReactParser from "html-react-parser"
 
 export default function StatusPostCard({
   id,
@@ -184,9 +185,7 @@ export default function StatusPostCard({
           }
         />
         <CardContent>
-          <Typography variant="body1" color={"text.primary"}>
-            {content}
-          </Typography>
+          <div>{HTMLReactParser(content)}</div>
         </CardContent>
         <Divider />
         <CardActions disableSpacing>

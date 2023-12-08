@@ -7,6 +7,7 @@ import {
   FormControl,
   Backdrop,
   CircularProgress,
+  Snackbar,
 } from "@mui/material";
 import logo from "../assets/logo.png";
 import { useState } from "react";
@@ -22,6 +23,7 @@ export default function Register() {
     password: "",
   });
   const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
@@ -43,7 +45,8 @@ export default function Register() {
 
       if (response.status === 201) {
         console.log("Signup successful");
-        navigate("/login");
+        setOpen(true);
+        setTimeout(navigate("/login"), 4000);
       } else {
         console.log("Signup failed");
       }
@@ -55,10 +58,14 @@ export default function Register() {
   return (
     <>
       <Backdrop open={loading}>
-        <CircularProgress color="inherit"/>
+        <CircularProgress color="inherit" />
       </Backdrop>
 
-      <Stack direction={"row"} spacing={6} className="justify-center my-16">
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        spacing={6}
+        className="justify-center my-16"
+      >
         <Container maxWidth="xs" className="py-10">
           <img
             src={logo}
@@ -166,6 +173,11 @@ export default function Register() {
           </Box>
         </Container>
       </Stack>
+      <Snackbar
+        open={open}
+        message={"Account created successfully"}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      />
     </>
   );
 }

@@ -7,7 +7,7 @@ import { Stack } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../components/Authentication/AuthContext";
 import NotFound from "./NotFound";
-import OnlineUsersView from "../components/WebSocket/OnlineUsersView";
+import OnlineUsersView from "../components/OnlineStat/OnlineUsersView";
 import axios from "axios";
 
 export default function Home() {
@@ -18,11 +18,6 @@ export default function Home() {
   const tokenExpiration = localStorage.getItem("exp_time");
   const expirationTime = new Date(tokenExpiration).getTime();
   const [posts, setPosts] = useState([]);
-
-  // const sampleUser = {
-  //   username: "John Doe",
-  //   profilePicture: "https://example.com/profile.jpg",
-  // };
 
   if (localUsername !== param) {
     return <NotFound />;
@@ -89,7 +84,7 @@ export default function Home() {
 
         <Stack
           direction={"row"}
-          className="relative top-14 md:top-5"
+          className="relative top-6 md:top-5"
           spacing={1}
         >
           <LeftPanel />
@@ -102,18 +97,6 @@ export default function Home() {
               <div className="px-2 text-lg md:text-2xl font-bold">
                 Your feeds
               </div>
-              {/* <div>
-                <StatusPostCard
-                  content="Hello World!"
-                  user={"David Lam"}
-                  date="November 27, 2023"
-                  likes={10}
-                  comments={2}
-                  shares={3}
-                  bookmarks={10}
-                />
-              </div> */}
-
               {posts.map((post) => (
                 <div key={post.id}>
                   <StatusPostCard
