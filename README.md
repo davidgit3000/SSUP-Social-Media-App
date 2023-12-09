@@ -10,7 +10,7 @@ A social media app developed by a team in Web Science class. Their shared goal i
 - [x] Can React to posts
 - [x] Can follow
 - [x] Can see who is online/offline
-- [x] Can update their Biology
+- [x] Can update their Bio
 - [x] Can see past posts    
 ## GIF
 ### Security of Website
