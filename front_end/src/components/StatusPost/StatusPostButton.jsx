@@ -29,6 +29,7 @@ export default function StatusPostButton({ username }) {
     const editorContent = tinymce.activeEditor.getContent({ format: "html" });
     setStatusContent(editorContent);
   };
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -88,7 +89,7 @@ export default function StatusPostButton({ username }) {
           <DialogContent dividers sx={{ height: "220px" }}>
             <div data-text-editor="name">
               <Editor
-                apiKey="2v72wfliiu36lgu71wnc1ymjn3ec9fzs4ubawgsg4n4obcyl"
+                apiKey="shdp0h85t0cyv06fmz4x58r777hx22to94bsc6zwcdnv3rc3"
                 init={{
                   plugins:
                     "ai tinycomments mentions anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed permanentpen footnotes advtemplate advtable advcode editimage tableofcontents mergetags powerpaste tinymcespellchecker autocorrect a11ychecker typography inlinecss",
@@ -113,7 +114,7 @@ export default function StatusPostButton({ username }) {
                     ),
                 }}
                 value={statusContent}
-                onChange={handleStatusContent}
+                onEditorChange={handleStatusContent}
               />
             </div>
           </DialogContent>
